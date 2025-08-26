@@ -1,14 +1,4 @@
 import { Image } from "expo-image";
-import {
-  Platform,
-  Pressable,
-  SafeAreaViewComponent,
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-
 import { HelloWave } from "@/components/systerm/HelloWave";
 import ParallaxScrollView from "@/components/systerm/ParallaxScrollView";
 import { ThemedText } from "@/components/systerm/ThemedText";
@@ -19,6 +9,15 @@ import TitleTextStyle from "@/components/Text/TitleTextStyle";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import InputStyle from "@/components/InputStyle";
 import Cart_lesson from "@/components/Cart_lesson";
+import {
+  Platform,
+  Pressable,
+  SafeAreaViewComponent,
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 
 const CartList = [
   { topicId: 1, topicName: "Daily Communication" },
@@ -52,7 +51,8 @@ export default function HomeScreen() {
         </Pressable>
       </View>
 
-      <ScrollView>
+      <ScrollView 
+      className="">
         {CartList.map((items) => (
           <TouchableOpacity key={items.topicId}>
             <Cart_lesson topicId={items.topicId} topicName={items.topicName} />
