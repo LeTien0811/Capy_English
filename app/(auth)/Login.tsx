@@ -1,16 +1,12 @@
 import ButtonStyle from "@/components/ButtonStyle";
 import InputStyle from "@/components/InputStyle";
 import HeadingTextStyle from "@/components/Text/HeadingTextStyle";
-import { Background } from "@react-navigation/elements";
 import React, { useContext } from "react";
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
-
 import { AuthContext } from "@/utils/authContext";
-import { Redirect, router, useRouter } from "expo-router";
 
 export default function Login() {
   const authContext = useContext(AuthContext);
-  const router = useRouter();
   const handleLogin = async () => {
     const fakeToken = "a-fake-auth-token-12345";
     authContext.signIn(fakeToken);
@@ -38,13 +34,11 @@ export default function Login() {
           content="Continue With Google"
           color="#F1F1F1"
           textColor="#000000"
-          onPress={null}
         />
         <ButtonStyle
           content="Continue With Facebook"
           color="#F1F1F1"
           textColor="#000000"
-          onPress={null}
         />
       </View>
     </View>

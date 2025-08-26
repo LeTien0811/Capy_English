@@ -7,7 +7,7 @@ type TextProps = {
 };
 
 const TitleTextStyle = ({ content, color }: TextProps) => {
-  return <Text className="text-wrap" style={{ color: color }}>{content}</Text>;
+  return <Text className="text-wrap font-bold" style={{ color: color }}>{content}</Text>;
 };
 
 export default TitleTextStyle;

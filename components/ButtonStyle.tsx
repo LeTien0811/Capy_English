@@ -14,7 +14,7 @@ const ButtonStyle = ({ content, color, textColor, onPress }: FielButton) => {
   return (
     <Pressable
        style={{ backgroundColor: pareColor }}
-      className="w-full h-[48] border-2 rounded-xl flex items-center justify-center" 
+      className="h-[48] px-20 border-2 rounded-xl flex items-center justify-center" 
       onPress={onPress}>
       <Text 
       style={{ color: pareText }}

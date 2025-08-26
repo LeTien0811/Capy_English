@@ -8,10 +8,6 @@ export default function _layout() {
   if(isLoading){
     return null;
   }
-
-  if(isLogin){
-    return <Redirect href="/" />
-  }
   return (
     <Stack
       screenOptions={{
@@ -19,6 +15,7 @@ export default function _layout() {
       }}
     >
       <Stack.Screen name="index" options={{ headerShown: false }}  />
+      <Stack.Screen name="Login" options={{ headerShown: false }}  />
       <Stack.Screen name="CreateAccount"  options={{ headerShown: false }} />
     </Stack>
   );

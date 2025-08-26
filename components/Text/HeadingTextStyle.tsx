@@ -10,7 +10,8 @@ const HeadingTextStyle = ({ content, color }: TextProps) => {
 
   return (
       <Text
-        className={`font-bold text-5xl text-shadow-lg`}
+        style={{color: color}}
+        className={`font-bold text-5xl text-shadow-lg text-center`}
       >
         {content}
       </Text>

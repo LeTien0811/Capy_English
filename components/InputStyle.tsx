@@ -10,7 +10,7 @@ const InputStyle = ({content, isBorder}: InputProps) => {
     const [text, setText] = useState('')
     return <TextInput
     style={{borderWidth: isBorder ? 2 : 0}}
-    className="w-full h-[48] border-gray-500 rounded-xl" 
+    className="w-full outline-none px-3 h-[48] border-gray-500 rounded-xl" 
     value={text}
     onChangeText={setText}
     placeholder={content}

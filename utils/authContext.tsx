@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import { useRouter } from "expo-router";
 
 // Định nghĩa kiểu dữ liệu cho AuthContext
 export type AuthState = {
@@ -21,6 +22,7 @@ export const AuthContext = createContext<AuthState>({
 const authStorageKey = "auth-session";
 
 export function AuthProvider({ children }: PropsWithChildren) {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,11 +42,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const signIn = async (token: string) => {
     await storeAuthSession(token);
     setIsLogin(true);
+    router.push('/(protected)/(home)');
   };
 
   const signOut = async () => {
     await storeAuthSession(null);
     setIsLogin(false);
+    router.push('/(auth)');
   };
 
   // useEffect để tải trạng thái từ AsyncStorage khi app khởi động
