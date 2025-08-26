@@ -6,13 +6,14 @@ import React, { useContext } from "react";
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
 
 import { AuthContext } from "@/utils/authContext";
-import { router, useRouter } from "expo-router";
+import { Redirect, router, useRouter } from "expo-router";
 
 export default function Login() {
-  const authenCation = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const router = useRouter();
-  const handleLogin = () => {
-    router.replace("/");
+  const handleLogin = async () => {
+    const fakeToken = "a-fake-auth-token-12345";
+    authContext.signIn(fakeToken);
   };
   return (
     <View className="bg-white w-screen h-full flex items-center justify-center p-4">

@@ -5,6 +5,9 @@ import React, { useContext } from 'react'
 
 export default function ProtectedLayout() {
     const { isLogin, isLoading } = useContext(AuthContext);
+    if(isLoading){
+      return null;
+    }
     if(!isLogin){
         return <Redirect href="/authentications" />;
     }
