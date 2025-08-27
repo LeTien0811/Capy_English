@@ -1,10 +1,10 @@
-import { ImageBackground, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import HeadingTextStyle from "@/components/Text/HeadingTextStyle";
 import ButtonStyle from "@/components/ButtonStyle";
-import { useRouter } from "expo-router";
+import HeadingTextStyle from "@/components/Text/HeadingTextStyle";
 import TitleTextStyle from "@/components/Text/TitleTextStyle";
+import { useRouter } from "expo-router";
+import React from "react";
+import { ImageBackground, Pressable, StyleSheet, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const BackgroundImage = require("@/assets/images/backgroundWelcomeScreen.png");
 
