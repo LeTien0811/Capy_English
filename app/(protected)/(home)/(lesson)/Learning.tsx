@@ -1,10 +1,9 @@
-import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useRoute } from "@react-navigation/native";
 import LearningLessionCart from "@/components/Lesson/ShowQuestion";
 import ShowResult from "@/components/Lesson/ShowResult";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type LessonContext = {
   QuestionID: string;
@@ -12,6 +11,7 @@ type LessonContext = {
   Answer_A: string;
   Answer_B: string;
   Answer_C: string;
+  Answer_D: string;
   correctAnswer: string;
 };
 
@@ -21,6 +21,7 @@ type UserLessonContext = {
   Answer_A: string;
   Answer_B: string;
   Answer_C: string;
+  Answer_D: string;
   correctAnswer: string;
   SelectAnswer: string;
 };
@@ -78,6 +79,7 @@ export default function Learning() {
       Answer_A: currentQuestion.Answer_A,
       Answer_B: currentQuestion.Answer_B,
       Answer_C: currentQuestion.Answer_C,
+      Answer_D: currentQuestion.Answer_D,
       correctAnswer: currentQuestion.correctAnswer,
       SelectAnswer: selected,
     };
@@ -112,7 +114,7 @@ export default function Learning() {
     return (
       <SafeAreaView className="w-full h-full">
         <View className="w-full h-full items-center flex justify-center">
-          <ShowResult isResult={isResult} />
+        {isResult && <ShowResult isResult={isResult} />}
         </View>
       </SafeAreaView>
     );

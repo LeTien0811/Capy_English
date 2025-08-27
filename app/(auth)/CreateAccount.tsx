@@ -10,7 +10,7 @@ export default function CreateAccount() {
         {/* Title */}
         <View className="py-5 mb-4"> {/* Giảm padding top/bottom và margin bottom */}
           <Text className="text-3xl font-extrabold text-[#333]">
-            Crossing Knowledge
+          CAPY ENGLISH
           </Text>
         </View>
 

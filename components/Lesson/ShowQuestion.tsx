@@ -1,5 +1,5 @@
-import { View, Text, Pressable } from "react-native";
 import React from "react";
+import { Pressable, Text, View } from "react-native";
 
 type LessonContext = {
   QuestionID: string;
@@ -7,6 +7,7 @@ type LessonContext = {
   Answer_A: string;
   Answer_B: string;
   Answer_C: string;
+  Answer_D: string;
   correctAnswer: string;
 };
 

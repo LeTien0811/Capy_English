@@ -1,14 +1,13 @@
-import React from "react";
-import {
-  Pressable,
-  Text,
-  View,
-  StyleSheet,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
+import React from "react";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 
 type CartProps = {
   topicId: number;
@@ -50,6 +49,7 @@ const Cart_lesson = ({ topicId, topicName }: CartProps) => {
               Answer_A: "what is this",
               Answer_B: "what is this",
               Answer_C: "what is this",
+              
               correctAnswer: "B",
             },
             {
