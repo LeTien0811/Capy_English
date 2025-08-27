@@ -23,7 +23,7 @@ const authStorageKey = "auth-session";
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   // Hàm để lưu session vào AsyncStorage

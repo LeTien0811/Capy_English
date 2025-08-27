@@ -4,7 +4,7 @@ import HeadingTextStyle from "@/components/Text/HeadingTextStyle";
 import TitleTextStyle from "@/components/Text/TitleTextStyle";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import InputStyle from "@/components/InputStyle";
-import Cart_lesson from "@/components/Cart_lesson";
+import Cart_lesson from "@/components/Lesson/Cart_lesson";
 import {
   Platform,
   Pressable,
