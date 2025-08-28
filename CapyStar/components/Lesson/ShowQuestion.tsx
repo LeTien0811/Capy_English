@@ -1,31 +1,70 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
-
-type LessonContext = {
-  QuestionID: string;
-  Question: string;
-  Answer_A: string;
-  Answer_B: string;
-  Answer_C: string;
-  correctAnswer: string;
-};
+import ButtonStyle from "../ButtonStyle";
+import { AnswerObject, LessonContext } from "@/libs/type";
+import ButtonAnswerStyle from "../ButtonAnswerStyle";
 
 type prop = {
-    Lesson: LessonContext, 
-    onAnswer: (selcted: string) => void;
-}
+  Lesson: LessonContext;
+  isScore: number;
+  isAnswered: boolean;
+  isSelectAnswer: string | null;
+  onAnswer: (selected: string) => void;
+};
 const LearningLessionCart = ({
- Lesson, onAnswer
+  Lesson,
+  isScore,
+  isAnswered,
+  isSelectAnswer,
+  onAnswer,
 }: prop) => {
-  return (
-    <View className="w-full h-screen bg-[#2B223E] flex gap-2 items-center justify-center" key={Lesson.QuestionID}>
-      <Text className="text-5xl font-bold text-wrap color-white font-">{Lesson.Question}</Text>
-      <View className="w-full p-5 flex gap-4">
-        <Pressable className="border-2 h-[59] border-[#6F6C87] rounded-xl px-5 items-start flex justify-center" onPress={() => onAnswer("A")}><Text className="color-white font-bold text-xl">{Lesson.Answer_A}</Text></Pressable>
-        <Pressable className="border-2 h-[59] border-[#6F6C87] rounded-xl px-5 items-start flex justify-center" onPress={() => onAnswer("B")}><Text className="color-white font-bold text-xl">{Lesson.Answer_B}</Text></Pressable>
-        <Pressable className="border-2 h-[59] border-[#6F6C87] rounded-xl px-5 items-start flex justify-center" onPress={() => onAnswer("C")}><Text className="color-white font-bold text-xl">{Lesson.Answer_C}</Text></Pressable>
-        <Pressable><Text>{Lesson.correctAnswer}</Text></Pressable>
+  if (!Lesson || !Lesson.Answer) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Đang tải câu hỏi...</Text>
       </View>
+    );
+  }
+
+  return (
+    <View
+      className="w-full flex gap-2 items-center justify-center"
+      key={Lesson.QuestionID}
+    >
+      <Text className="text-5xl font-bold text-wrap color-white font-">
+        {Lesson.Question}
+      </Text>
+      <View className="w-full p-5 flex gap-4">
+        {Lesson.Answer.map((answer: AnswerObject) => {
+          let backgroundButton = "white";
+          let textColor = "black";
+          if (isAnswered) {
+            if (answer.AnswerId === isSelectAnswer) {
+              if (isSelectAnswer === Lesson.correctAnswer) {
+                backgroundButton = "green";
+                textColor = "white";
+              } else {
+                backgroundButton = "red";
+                textColor = "white";
+              }
+            }
+          }
+          return (
+            <ButtonAnswerStyle
+              key={answer.AnswerId}
+              content={answer.Answer}
+              color={backgroundButton}
+              align_items="flex-start"
+              textColor={textColor}
+              onPress={() => onAnswer(answer.AnswerId)}
+            />
+          );
+        })}
+        <Pressable>
+          <Text>{Lesson.correctAnswer}</Text>
+        </Pressable>
+      </View>
+      <Text>Điểm số: {isScore}</Text>
     </View>
   );
 };

@@ -47,19 +47,21 @@ const Cart_lesson = ({ topicId, topicName }: CartProps) => {
             {
               QuestionID: "1",
               Question: "what is this",
-              Answer_A: "what is this",
-              Answer_B: "what is this",
-              Answer_C: "what is this",
-              correctAnswer: "B",
+              Answer: [
+                {AnswerId: "1", Answer: "what is this 1"}, 
+                {AnswerId: "2", Answer: "what is this 2"}, 
+                {AnswerId: "3", Answer: "what is this 3"}],
+              correctAnswer: "1",
             },
             {
               QuestionID: "2",
-              Question: "another question",
-              Answer_A: "A",
-              Answer_B: "B",
-              Answer_C: "C",
-              correctAnswer: "C",
+              Question: "Từ nào chỉ con chó",
+              Answer: [
+                {AnswerId: "1", Answer: "Dog"},
+                {AnswerId: "2", Answer: "Cat"}],
+              correctAnswer: "2",
             },
+           
           ];
           router.push({
             pathname: "/(protected)/(home)/(lesson)/Learning",

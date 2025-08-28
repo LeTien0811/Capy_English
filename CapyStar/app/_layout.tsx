@@ -10,17 +10,22 @@ import { View } from "react-native";
 import { AuthContext, AuthProvider } from "@/utils/authContext";
 
 export default function RootLayout() {
-
   return (
     <AuthProvider>
-        <View className="flex-1">
-          <Stack>
-            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          </Stack>
+      <View className="flex-1">
+        <Stack>
+          <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="modal"
+            options={{
+              presentation: "modal",
+            }}
+          />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        </Stack>
 
-          <StatusBar style="auto"/>
-        </View>
+        <StatusBar style="auto" />
+      </View>
     </AuthProvider>
   );
 }
