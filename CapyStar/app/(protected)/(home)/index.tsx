@@ -1,32 +1,32 @@
-import { Image } from "expo-image";
-import { SafeAreaView } from "react-native-safe-area-context";
+
+import InputStyle from "@/components/InputStyle";
+import Cart_lesson from "@/components/Lesson/Cart_lesson";
 import HeadingTextStyle from "@/components/Text/HeadingTextStyle";
 import TitleTextStyle from "@/components/Text/TitleTextStyle";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import InputStyle from "@/components/InputStyle";
-import Cart_lesson from "@/components/Lesson/Cart_lesson";
 import {
-  Platform,
   Pressable,
-  SafeAreaViewComponent,
-  StyleSheet,
-  View,
   ScrollView,
-  TouchableOpacity,
+  View
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const CartList = [
-  { topicId: 1, topicName: "Daily Communication" },
-  { topicId: 2, topicName: "Travel" },
-  { topicId: 3, topicName: "Food" },
-  { topicId: 4, topicName: "Work and Careers" },
-  { topicId: 5, topicName: "Health" },
-  { topicId: 6, topicName: "Education" },
-  { topicId: 7, topicName: "Entertainment and Movies" },
-  { topicId: 8, topicName: "Family and Friends" },
-  { topicId: 9, topicName: "Weather" },
-  { topicId: 10, topicName: "Shopping" },
+  { topicId: 1, topicName: "Đường Xá" },
+  { topicId: 2, topicName: "Ẩm thực" },
+  { topicId: 3, topicName: "Rau củ quả" },
+  { topicId: 4, topicName: "Quần Áo" },
+  { topicId: 5, topicName: "Toán học" },
+  { topicId: 6, topicName: "Môi trường" },
+  { topicId: 7, topicName: "Con người" },
+  { topicId: 8, topicName: "Ngôn ngữ" },
+  { topicId: 9, topicName: "Động vật" },
+  { topicId: 10, topicName: "Gia đình" },
+  { topicId: 11, topicName: "Màu sắc" },
+  { topicId: 12, topicName: "Cảm xúc" },
+  { topicId: 13, topicName: "Mua sắm" },
 ];
+
 
 export default function HomeScreen() {
   return (
@@ -36,7 +36,7 @@ export default function HomeScreen() {
           <HeadingTextStyle content="Lesson" />
           <TitleTextStyle
             content="Keep track of your current and completed lessons."
-            color="gray"
+            color="green"
           />
         </View>
 
