@@ -9,6 +9,7 @@ export default function ProtectedLayout() {
     if(!isLogin){
       return <Redirect href="/(auth)" />;
     }
+
   return (
     <Tabs
       screenOptions={{
@@ -23,6 +24,13 @@ export default function ProtectedLayout() {
         name="(home)"
         options={{
           title: 'home',
+          headerShown:false,
+        }}
+      />
+      <Tabs.Screen
+        name="(lesson)"
+        options={{
+          title: 'lesson',
           headerShown:false,
         }}
       />

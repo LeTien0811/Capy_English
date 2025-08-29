@@ -61,7 +61,7 @@ const ShowResult = ({ isResult }: ShowResultProps) => {
           </View>
           <View style={style.boxShadow} className='flex-1 p-6 bg-white rounded-xl items-center justify-center border-2 border-gray-200'>
             <Text className='font-bold text-lg text-gray-500 mb-1'>Điểm số</Text>
-            <Text className='font-extrabold text-5xl text-purple-600'>{isResult.score}</Text>
+            <Text className='font-extrabold text-5xl text-purple-600'>{isResult.score.toFixed(2)}</Text>
           </View>
         </View>
       

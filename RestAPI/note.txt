@@ -1,1 +1,38 @@
 Django Version  4.2
+
+ Nếu bạn đang dùng Python với Django REST Framework:
+Cài đặt thư viện django-cors-headers.
+
+Bash
+
+pip install django-cors-headers
+Sau đó, thêm corsheaders vào INSTALLED_APPS trong file settings.py của bạn:
+
+Python
+
+INSTALLED_APPS = [
+    ...
+    'corsheaders',
+    ...
+]
+Và thêm CorsMiddleware vào đầu danh sách MIDDLEWARE:
+
+Python
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    ...
+]
+Cuối cùng, định nghĩa các origin được phép truy cập.
+
+Python
+
+# Cho phép mọi origin (không nên dùng trong production)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Hoặc chỉ cho phép một origin cụ thể
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8081",
+# ]
+Sau khi thực hiện một trong các bước trên, bạn cần khởi động lại server backend để các thay đổi có hiệu lực.
+Lỗi CORS sẽ được giải quyết và ứng dụng frontend của bạn có thể gọi API một cách thành công.

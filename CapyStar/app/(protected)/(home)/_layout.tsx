@@ -6,9 +6,9 @@ import { AuthContext } from '@/utils/authContext';
 
 export default function HomeLayout() {
  const { isLogin, isLoading } = useContext(AuthContext);
-    // if(!isLogin){
-    //     <Redirect href="/authentications/Login" />;
-    // }
+    if(!isLogin){
+        <Redirect href="/(auth)/Login" />;
+    }
   return (
     <Stack>
       <Stack.Screen
@@ -21,7 +21,6 @@ export default function HomeLayout() {
       <Stack.Screen
         name="(lesson)"
         options={{
-          title: 'Home',
           headerShown:false,
         }}
       />

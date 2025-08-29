@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LessonContext, Result, UserLessonContext } from '@/libs/type';
+import { Result, UserLessonContext } from '@/libs/type';
 import { useRouter } from 'expo-router';
 import { preventAutoHideAsync } from 'expo-splash-screen';
 
@@ -17,22 +17,14 @@ const useHandleQuiz = (lesson: any) => {
   const [isSelectAnswer, setSelectAnswer] = useState("");
 
   useEffect(() => {
-    if (typeof lesson === "string") {
       try {
-        const parsedLesson: LessonContext[] = JSON.parse(lesson);
-        if (parsedLesson.length > 0) {
-          setIsQuestion(parsedLesson);
-        } else {
-          router.back();
-        }
+        if (lesson.length > 0) {
+          setIsQuestion(lesson);
+        } 
       } catch (e) {
         console.log("Invalid JSON in lesson param", e);
         router.back();
       }
-    } else {
-      console.log("lesson param is not a string", lesson);
-      router.back();
-    }
     setIsLoading(false);
   }, [lesson, router]);
 
@@ -41,7 +33,7 @@ const useHandleQuiz = (lesson: any) => {
       return;
     }
     const userSelected = selected === isQuestion[isCurrentQuestion].correctAnswer;
-    alert(JSON.stringify(userSelected))
+    // alert(JSON.stringify(userSelected))
     if (userSelected) {
       setScore((score) => score + 10 / isQuestion.length);
     }
@@ -73,7 +65,7 @@ const useHandleQuiz = (lesson: any) => {
       };
       setResult(result);
     }
-    alert(JSON.stringify(isUserSelected))
+    // alert(JSON.stringify(isUserSelected))
   };
 
   return {

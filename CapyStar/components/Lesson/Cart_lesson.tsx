@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Pressable,
   Text,
@@ -9,13 +9,11 @@ import {
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
+import useFetchAPI from "@/hooks/handleFetchAPI";
+import useMapQuestions from "@/hooks/handleMapQuestions";
+import { beforeQuestion, QuestionContext, topicContext } from "@/libs/type";
 
-type CartProps = {
-  topicId: number;
-  topicName: string;
-};
-
-const Cart_lesson = ({ topicId, topicName }: CartProps) => {
+const Cart_lesson = ({ id, name }: topicContext) => {
   const router = useRouter();
   const style = StyleSheet.create({
     boxWithShadow: {
@@ -37,39 +35,12 @@ const Cart_lesson = ({ topicId, topicName }: CartProps) => {
       style={style.boxWithShadow}
       className="bg-white w-full p-3 border-2 border-gray-400 rounded-xl mb-3 flex flex-row justify-between"
     >
-      <Text>{topicName}</Text>
+      <Text>{name}</Text>
       <TouchableOpacity
-        key={topicId}
+        key={id}
         className="p-3 rounded-full border-2 border-gray-500"
         style={{ backgroundColor: "#A1D689" }}
-        onPress={() => {
-          const lessonData = [
-            {
-              QuestionID: "1",
-              Question: "what is this",
-              Answer: [
-                {AnswerId: "1", Answer: "what is this 1"}, 
-                {AnswerId: "2", Answer: "what is this 2"}, 
-                {AnswerId: "3", Answer: "what is this 3"}],
-              correctAnswer: "1",
-            },
-            {
-              QuestionID: "2",
-              Question: "Từ nào chỉ con chó",
-              Answer: [
-                {AnswerId: "1", Answer: "Dog"},
-                {AnswerId: "2", Answer: "Cat"}],
-              correctAnswer: "2",
-            },
-           
-          ];
-          router.push({
-            pathname: "/(protected)/(home)/(lesson)/Learning",
-            params: {
-              lesson: JSON.stringify(lessonData),
-            },
-          });
-        }}
+        onPress={() => router.push({pathname:"/RunningTest", params:{id: id.toString()},})}
       >
         <MaterialIcons name="play-arrow" size={24} color="black" />
       </TouchableOpacity>

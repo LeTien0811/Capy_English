@@ -5,19 +5,17 @@ import { Platform } from 'react-native';
 import { AuthContext } from '@/utils/authContext';
 
 export default function LessonLayout() {
- const { isLogin, isLoading } = useContext(AuthContext);
-    // if(!isLogin){
-    //     <Redirect href="/authentications/Login" />;
-    // }
+  
   return (
     <Stack>
       <Stack.Screen
-        name="Learning"
+        name="index"
         options={{
-          title: 'Learning',
+          title: 'Lesson',
           headerShown:false,
         }}
       />
+      
     </Stack>
   );
 }

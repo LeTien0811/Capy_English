@@ -14,7 +14,7 @@ export type AuthState = {
 // Khởi tạo Context với giá trị mặc định
 export const AuthContext = createContext<AuthState>({
   isLogin: false,
-  isLoading: true, // Đặt mặc định là true để chờ tải trạng thái
+  isLoading: true, 
   signIn: () => null,
   signOut: () => null,
 });

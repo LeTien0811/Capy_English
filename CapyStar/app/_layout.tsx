@@ -21,6 +21,13 @@ export default function RootLayout() {
               presentation: "modal",
             }}
           />
+         <Stack.Screen
+        name="(services)"
+        options={{
+          title: 'Running Test',
+          headerShown:false,
+        }}
+      />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         </Stack>
 
