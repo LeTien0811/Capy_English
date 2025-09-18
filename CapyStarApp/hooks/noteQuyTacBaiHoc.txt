@@ -1,0 +1,80 @@
+Rõ rồi 👍. Đoạn này bạn trích ra chính là một **tuple list trong Django model** (thường dùng cho `choices=` trong `models.CharField`). Nó định nghĩa các loại câu hỏi (`question_type`). Mình giải thích chi tiết từng loại nhé:
+
+---
+
+### `('vocabulary', 'Vocabulary')`
+
+* **Giá trị lưu trong CSDL:** `"vocabulary"`
+* **Ý nghĩa hiển thị (label):** `"Vocabulary"`
+* **Mục đích:**
+
+  * Loại câu hỏi trắc nghiệm từ vựng.
+  * Thường có 1 câu hỏi + 4 lựa chọn (`option_a` → `option_d`).
+  * Ví dụ:
+
+    > "Chọn nghĩa đúng của từ *endangered*?"
+    > A. Bị đe dọa
+    > B. An toàn
+    > C. Sinh sản
+    > D. Dễ dàng
+
+---
+
+### `('reading', 'Reading')`
+
+* **Giá trị lưu trong CSDL:** `"reading"`
+* **Ý nghĩa hiển thị:** `"Reading"`
+* **Mục đích:**
+
+  * Loại câu hỏi **đọc hiểu**.
+  * Cần một **đoạn văn bản (`passage`)** + câu hỏi liên quan.
+  * Có thể là trắc nghiệm hoặc tự luận ngắn.
+  * Ví dụ:
+
+    > Đoạn văn: “Many animals migrate during winter to find food.”
+    > Câu hỏi: “Why do animals migrate in winter?”
+
+---
+
+### `('grammar', 'Grammar')`
+
+* **Giá trị lưu trong CSDL:** `"grammar"`
+* **Ý nghĩa hiển thị:** `"Grammar"`
+* **Mục đích:**
+
+  * Loại câu hỏi **ngữ pháp**.
+  * Có thể kèm quy tắc ngữ pháp (`grammar_rule`) và ví dụ (`grammar_example`).
+  * Ví dụ:
+
+    > Quy tắc: Present Simple dùng cho thói quen.
+    > Câu hỏi: “She \_\_\_ (go) to school every day.”
+    > Đáp án: goes
+
+---
+
+### `('listening', 'Listening')`
+
+* **Giá trị lưu trong CSDL:** `"listening"`
+* **Ý nghĩa hiển thị:** `"Listening"`
+* **Mục đích:**
+
+  * Loại câu hỏi **nghe hiểu**.
+  * Có nội dung **audio\_text** (chuyển thành file âm thanh) + **transcript** để tham chiếu.
+  * Thường kèm câu hỏi trắc nghiệm hoặc trả lời ngắn.
+  * Ví dụ:
+
+    > Audio: “The train to London departs at 6:30 PM.”
+    > Câu hỏi: “What time does the train leave?”
+
+---
+
+👉 Tóm lại:
+
+* `vocabulary`: trắc nghiệm từ vựng
+* `reading`: đọc hiểu đoạn văn
+* `grammar`: bài tập ngữ pháp (quy tắc & ví dụ)
+* `listening`: nghe hiểu (có transcript/audio\_text)
+
+---
+
+Bạn có muốn mình vẽ luôn một bảng so sánh trực quan (dạng bảng markdown) để dễ hình dung 4 loại này không?
