@@ -1,0 +1,2 @@
+Khi build đảm bao sử dụng đúng NDK nếu lỗi cài lại NDK và câu lệnh 
+npm install expo-modules-autolinking --save-dev

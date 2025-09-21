@@ -1,0 +1,14 @@
+// Truy Vấn câu hỏi dựa vào course
+SELECT qb.id_question ,qb.question_type,  qb.question,qb.correct_answer,
+       qb.option_a, qb.option_b, qb.option_c, qb.option_d,
+       qb.passage, qb.grammar_rule, qb.grammar_example,
+       qb.audio_text, qb.transcript,
+       qb.level_id, qb.topic_id,
+       l.id_lessons, c.id_course
+FROM capystarapi_questionbank qb
+JOIN capystarapi_question_group qg ON qb.id_question = qg.Question_bank_id
+JOIN capystarapi_lessons l ON qg.Lessons_id = l.id_lessons
+JOIN capystarapi_lesson_group lg ON l.Lesson_Group_id = lg.id_group
+JOIN capystarapi_course c ON lg.Course_id = c.id_course
+WHERE c.id_course = 1;
+

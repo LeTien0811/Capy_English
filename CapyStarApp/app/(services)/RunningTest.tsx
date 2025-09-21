@@ -71,6 +71,7 @@ export default function RunningTest() {
 
   const speech = () => {
     const audio = isQuestion?.audio_text;
+    Speech.stop();
     if (audio != null) {
       Speech.speak(audio?.toString(), {
         language: "en-GB",
@@ -160,8 +161,6 @@ export default function RunningTest() {
         )}
         <ShowQuestion
           Lesson={isQuestion}
-          isScore={isScore}
-          isSelectAnswer={isSelectAnswer}
           openSubmit={openSubmitModal}
         />
 

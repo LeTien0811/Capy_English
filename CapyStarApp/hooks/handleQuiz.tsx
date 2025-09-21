@@ -51,8 +51,6 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
     }
   };
 
-
-
   useEffect(() => {
     setIsLoading(true);
     try {

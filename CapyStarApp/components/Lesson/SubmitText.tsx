@@ -6,20 +6,20 @@ interface SubmitTextProps {
 }
 const SubmitText = ({ DataUserQuestion }: SubmitTextProps) => {
   return (
-    <ScrollView className="w-full mb-20 p-2"
-    contentContainerStyle={{ paddingBottom: 10 }} >
-      {DataUserQuestion?.transcript != null 
-      && 
-      (
-        <Text style={{
-            fontWeight: "bold",
-            flexShrink: 1,
-          }}
-          className="text-xl text-white font-bold">
-            {DataUserQuestion?.transcript}
+    <ScrollView
+      className="w-full mb-20 p-2"
+    >
+      <View className="w-full flex flex-row gap-1 flex-wrap">
+        {DataUserQuestion?.transcript != null &&
+        DataUserQuestion?.transcript.map((element, index) => (
+          <Text
+            key={index}
+            className="text-xl text-white font-bold text-wrap"
+          >
+            {element}
           </Text>
-      )
-      }
+        ))}
+      </View>
       {DataUserQuestion?.correctAnswer === DataUserQuestion?.SelectAnswer ? (
         <Text
           style={{
@@ -32,8 +32,6 @@ const SubmitText = ({ DataUserQuestion }: SubmitTextProps) => {
         >
           {DataUserQuestion?.explain_question}
         </Text>
-
-
       ) : (
         <Text
           style={{
@@ -52,22 +50,19 @@ const SubmitText = ({ DataUserQuestion }: SubmitTextProps) => {
           vì {DataUserQuestion?.explain_question}
         </Text>
       )}
-      {DataUserQuestion?.grammar_rule != null 
-      && 
-      (
-        <Text style={{
+      {DataUserQuestion?.grammar_rule != null && (
+        <Text
+          style={{
             fontWeight: "bold",
             textAlign: "center",
             flexShrink: 1,
           }}
-          className="text-xl text-red-300 font-bold text-center">
-            Quy Tắc: {DataUserQuestion?.grammar_rule}
-
-            Ví Dụ: {DataUserQuestion?.grammar_example}
-          </Text>
-      )
-      }
-      
+          className="text-xl text-red-300 font-bold text-center"
+        >
+          Quy Tắc: {DataUserQuestion?.grammar_rule}
+          Ví Dụ: {DataUserQuestion?.grammar_example}
+        </Text>
+      )}
     </ScrollView>
   );
 };

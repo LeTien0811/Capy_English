@@ -48,6 +48,9 @@ const NewsCards = ({ NewsItem }: { NewsItem: NewsItem }) => {
           <Text className="indent-8 line-clamp-2 font-bold text-black text-2xl">
           {NewsItem.heading}
           </Text>
+          <Text className="indent-8 line-clamp-2 text-gray-500">
+            {NewsItem.content}
+          </Text>
         </View>
 
       <View className="w-full flex flex-col gap-3 absolute bottom-0 p-2">

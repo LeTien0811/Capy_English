@@ -3,23 +3,20 @@ import React, { useEffect, useState } from "react";
 import ButtonStyle from "../ButtonStyle";
 import { AnswerObject, QuestionContext } from "@/libs/type";
 import ButtonAnswerStyle from "../ButtonAnswerStyle";
+import handleMapText from "@/hooks/handleMapText";
 
 type QuestionProp = {
   Lesson: QuestionContext;
-  isScore: number;
-  isSelectAnswer: string | null;
   openSubmit: (selected: string) => void;
 };
 
 export const ShowQuestion = ({
   Lesson,
-  isScore,
-  isSelectAnswer,
   openSubmit,
 }: QuestionProp) => {
-  
   const [isPress, setPress] = useState("");
-  const [backgroundButtonSubmit, setBackgroundButtonSubmit] = useState("#6F6C87");
+  const [backgroundButtonSubmit, setBackgroundButtonSubmit] =
+    useState("#6F6C87");
   const [borderColorSelected, setborderColorSelected] = useState("");
 
   const clickAnswer = (AnswerId: string) => {
@@ -30,16 +27,14 @@ export const ShowQuestion = ({
     if (isPress !== "") {
       openSubmit(isPress);
       setPress("");
-      
     } else {
       Alert.alert("Thông Báo", "Vui Lòng Chọn  Đáp Án");
       console.log("Chưa chọn đáp án!");
     }
-  }
- 
+  };
 
   useEffect(() => {
-    if(isPress !== "") {
+    if (isPress !== "") {
       setBackgroundButtonSubmit("#7A68FF");
       setborderColorSelected(isPress);
     } else {
@@ -60,38 +55,50 @@ export const ShowQuestion = ({
         className="w-full flex gap-2 items-center justify-center"
         key={Lesson.QuestionID}
       >
-        <View className="w-full flex items-center justify-center">
-          {Lesson.question_type === 'reading' && (
-            <Text className="text-2xl mb-10 text-[#688EFF] font-bold text-center text-wrap">
-            Passage: {Lesson.passage}
-          </Text>
+        <View className="w-full flex flex-row items-center justify-center gap-2 flex-wrap">
+          <Text className="text-2xl text-[#688EFF] font-bold text-center text-wrap">Passage:</Text>
+          {Lesson.question_type === "reading" && (
+            Lesson.passage?.map((element, index) => (
+            <Text key={index} className="text-2xl text-[#688EFF] font-bold text-center text-wrap" onLongPress={() => console.log(element)}>
+              {element}
+            </Text>
+          ))
+            
           )}
-          <Text className="text-2xl text-white font-bold text-center text-wrap">
-            {Lesson.Question}
-          </Text>
-         
+
+        </View>
+        <View className="w-full flex flex-row items-center justify-center gap-2">
+          {Lesson.Question?.map((element, index) => (
+            <Text key={index} className="text-white text-2xl font-bold" onLongPress={() => console.log(element)}>
+              {element}
+            </Text>
+          ))}
         </View>
         <View className="w-full p-5 flex gap-4">
           {Lesson.Answer.map((answer: AnswerObject) => {
+            console.log("This answer in map: ", answer);
             return (
               <ButtonAnswerStyle
                 key={answer.AnswerId}
+                idAnswer={answer.AnswerId}
                 content={answer.Answer}
                 color="#35284E"
                 align_items="flex-start"
                 textColor="white"
-                boderColor={answer.AnswerId === borderColorSelected ? "#7A68FF" : ""}
+                boderColor={
+                  answer.AnswerId === borderColorSelected ? "#7A68FF" : ""
+                }
                 onPress={() => clickAnswer(answer.AnswerId)}
               />
             );
           })}
         </View>
-        <ButtonStyle 
-        color={backgroundButtonSubmit}
-        content="Submit"
-        textColor="white"
-        align_items="center"
-        onPress={() => clickSubmit()}
+        <ButtonStyle
+          color={backgroundButtonSubmit}
+          content="Submit"
+          textColor="white"
+          align_items="center"
+          onPress={() => clickSubmit()}
         />
       </View>
     );

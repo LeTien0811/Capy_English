@@ -20,6 +20,7 @@ import {
   Question_Group,
   topicContext,
   level,
+  Widget,
 } from "@/libs/type";
 import { useRouter } from "expo-router";
 
@@ -156,9 +157,9 @@ CREATE TABLE IF NOT EXISTS LearningSession (
     id_session integer NOT NULL PRIMARY KEY,
     learner_id integer NOT NULL,
     Lessons_id integer NOT NULL,
-    score TEXT,
+    score REAL,
     time_spent TEXT,
-    completion_at datetime NULL,
+    completion_at TEXT,
     FOREIGN KEY (Lessons_id) REFERENCES Lessons(id_lessons) ON DELETE CASCADE,
     FOREIGN KEY (learner_id) REFERENCES learners(id_learners) ON DELETE CASCADE
 );
@@ -196,6 +197,13 @@ export const DatabaseProvider = ({ children }: { children: ReactNode }) => {
       );
       return result || null;
     },
+
+    getWidgetData: async (learner_id: number): Promise<Widget|null> => {
+      if(!db) return null;
+      const result = await db.getFirstAsync<Widget>('SELECT lp.score, lp.progress_learners, lp.Level_id, COUNT(ls.id_session) AS "TOTAL_COMPLETE_LESSION", AVG(ls.score) AS "TOTAL_SCORE_FORM_SUCCES_LESSON" FROM Learner_Profiles lp JOIN LearningSession ls ON lp.id_learners = ls.learner_id JOIN Levels lv ON lp.Level_id = lv.id_level WHERE lp.id_learners = ?', [learner_id]);
+      console.log("widget: ", result);
+      return result || null;
+    } ,
 
     getLearnerProfiles: async (): Promise<Learner_Profiles | null> => {
       if (!db) return null;
@@ -612,8 +620,8 @@ export const DatabaseProvider = ({ children }: { children: ReactNode }) => {
               `INSERT OR REPLACE INTO LearningSession (id_session, learner_id, Lessons_id, score, time_spent, completion_at) VALUES (?, ?, ?, ?, ?, ?)`,
               [
                 item.id_session,
-                item.learners_id,
-                item.lessons_id,
+                item.learner,
+                item.lesson,
                 item.score,
                 item.timespent,
                 item.complete_at,

@@ -1,0 +1,79 @@
+ try:          
+        learner = Learners.objects.filter(email = email, password_hash = password_hash).first()
+        if not learner:
+            return Response(
+                {"error": "Không tìm thấy người học với email và mật khẩu này."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        topic = Topic.objects.all()
+        level = Levels.objects.all()
+
+        learner_profile = learner.profiles.first()
+
+        course = None
+        if learner_profile and learner_profile.Course:
+            course = learner_profile.Course
+
+        lesson_group = Lesson_Group.objects.none()
+        lessons = Lessons.objects.none()
+        if course:
+            lesson_group = course.Lesson_Group.all()
+            lesson_ids = [lg.id_group for lg in lesson_group]
+            lessons = Lessons.objects.filter(Lesson_Group__in=lesson_ids)
+
+        # Lấy các nhóm câu hỏi và ngân hàng câu hỏi liên quan đến bài học
+        question_group = Question_Group.objects.none()
+        question_bank = QuestionBank.objects.none()
+        if lessons.exists():
+            question_group = Question_Group.objects.filter(Lessons__in=lessons)
+            question_bank_ids = [qg.Question_bank.id_question for qg in question_group]
+            question_bank = QuestionBank.objects.filter(id_question__in=question_bank_ids)
+
+        # Lấy lịch sử học tập và câu trả lời sai
+        learning_session = learner.sessions.all()
+        false_answer = learner.false_answer_set.all()
+        
+        learner_serializer = LearnersSerializer(learner)
+        topic_serializer = TopicSerializer(topic, many=True)
+        level_serializer = LevelsSerializer(level, many=True)
+        learner_profile_serializer = Learner_ProfilesSerializer(learner_profile)
+        course_serializer = CourseSerializer(course)
+        lesson_group_serializer = Lesson_GroupSerializer(lesson_group, many=True)
+        lesson_serializer = LessonsSerializer(lessons, many=True)
+        question_group_serializer = Question_GroupSerializer(question_group, many=True)
+        question_bank_serializer = QuestionBankSerializer(question_bank, many=True)
+        learning_session_serializer = LearningSessionSerializer(learning_session, many=True)
+        false_answer_serializer = False_AnswerSerializer(false_answer, many=True)
+        
+
+        # 4. Trả về Response
+        response_data = {
+            'learner': learner_serializer.data,
+            'topic': topic_serializer.data,
+            'level': level_serializer.data,
+            'learner_profile': learner_profile_serializer.data,
+            'course': course_serializer.data,
+            'lesson_group': lesson_group_serializer.data,
+            'lesson': lesson_serializer.data,
+            'question_group': question_group_serializer.data,
+            'question_bank': question_bank_serializer.data,
+            'learning_session': learning_session_serializer.data,
+            'false_answer': false_answer_serializer.data,
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
+    except ObjectDoesNotExist as e:
+        return Response(
+            {"error": f"Dữ liệu không tìm thấy: {str(e)}"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except AttributeError as e:
+        return Response(
+            {"error": f"Lỗi logic khi xử lý dữ liệu: {str(e)}"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    except Exception as e:
+        return Response(
+            {"error": f"Đã xảy ra lỗi không mong muốn: {str(e)}"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

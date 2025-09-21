@@ -104,56 +104,47 @@ export default function Index() {
     router.push("/(protected)/(lesson)");
   };
   return (
-    <SafeAreaView className="flex-1 p-3 w-full h-full bg-white">
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: tabBarHeight }}
-        className="flex-1"
-      >
-        <View className="w-full flex flex-row mb-2 items-center justify-between">
-          <Text className="font-bold text-xl">Hi {Learner?.full_name}!</Text>
-          <TouchableOpacity className="w-14 h-14 border-2 border-gray-300 rounded-xl items-center flex justify-center">
-            <Image
-              source={{
-                uri: "https://img.icons8.com/?size=100&id=849XkTbsgJDo&format=png&color=343b6e",
-              }}
-              className="w-6 h-6"
-            />
-          </TouchableOpacity>
-        </View>
-        <View className="w-full mb-2">
-          <OverviewWidgetCard />
-        </View>
+    <SafeAreaView className="flex-1 p-2 w-full h-full bg-white">
+      <View className="w-full flex flex-row mb-2 items-center justify-between">
+        <Text className="font-bold text-xl">Hi {Learner?.full_name}!</Text>
+        <TouchableOpacity className="w-14 h-14 border-2 border-gray-300 rounded-xl items-center flex justify-center">
+          <Image
+            source={{
+              uri: "https://img.icons8.com/?size=100&id=849XkTbsgJDo&format=png&color=343b6e",
+            }}
+            className="w-6 h-6"
+          />
+        </TouchableOpacity>
+      </View>
 
-        <View className="w-full flex flex-col gap-4">
-          <View className="w-full flex flex-col mb-2">
-            <Text className="text-3xl font-bold ">News</Text>
-            <TitleTextStyle
-              content="this is a news for learning english people!"
-              color="gray"
-            />
-          </View>
-          <View className="w-full">
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                paddingBottom: tabBarHeight,
-                display: "flex",
-                gap: 4,
-                padding: 2,
-              }}
-              horizontal={true}
-              pagingEnabled
-            >
-              {newsData.map((newslist) =>
-                newslist.NewsItems.map((item, index) => (
-                  <NewsCards key={index} NewsItem={item} />
-                ))
-              )}
-            </ScrollView>
-          </View>
+      <View className="w-full mb-8">
+        <OverviewWidgetCard />
+      </View>
+
+      <View className="w-full flex flex-col gap-6">
+        <View className="w-full flex flex-col mb-2">
+          <Text className="text-3xl font-bold ">News</Text>
+          <TitleTextStyle
+            content="this is a news for learning english people!"
+            color="gray"
+          />
         </View>
-      </ScrollView>
+        <View className="w-full">
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            pagingEnabled
+          >
+            {newsData.map((newslist) =>
+              newslist.NewsItems.map((item, index) => (
+                  <View key={index} className="px-1 py-3">
+                    <NewsCards key={index} NewsItem={item} />
+                  </View>
+              ))
+            )}
+          </ScrollView>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }

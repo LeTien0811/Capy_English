@@ -2,7 +2,7 @@ import * as SQLite from "expo-sqlite";
 
 export interface AnswerObject {
   AnswerId: string;
-  Answer: string | null;
+  Answer: string[] | null;
 }
 
 export interface topicContext {
@@ -60,11 +60,11 @@ export interface course {
 
 export interface learningsession {
     id_session: number,
-    score: string | null,
-    timespent: string,
+    score: number,
+    timespent: number,
     complete_at: string,
-    learners_id: number,
-    lessons_id: number,
+    learner: number,
+    lesson: number,
 };
 
 export interface Lesson_Group {
@@ -106,6 +106,7 @@ export interface DatabaseContextType {
     db: SQLite.SQLiteDatabase | null;
     isDbLoading: boolean;
     checkLoginStatus: () => Promise<learners | null>;
+    getWidgetData: (learner_id: number) => Promise<Widget | null>;
     getLearnerProfiles: () => Promise<Learner_Profiles | null>;
     getCourse: () => Promise<course | null>;
     getLesson: () => Promise<Lessons[] | []>;
@@ -135,6 +136,12 @@ export interface AuthContextType {
     Register: (id_learners: number, email: string | null, password_hash: string | null, access_token: string | null, refresh_token: string | null , full_name: string, created_at: string | null) => Promise<boolean>
 };
 
+export interface PressToTranslateContext {
+  isHandingTranslate: boolean;
+  resultTranslate: string | null;
+  HandleTranslate: (data: string) => Promise<string>;
+}
+
 export interface beforeQuestion {
   id: number;
   question: string;
@@ -149,27 +156,27 @@ export interface beforeQuestion {
 export interface QuestionContext {
   QuestionID: string;
   question_type: string;
-  Question: string | null;
+  Question: string[] | null;
   Answer: AnswerObject[] | null;
-  passage: string | null;
-  grammar_rule: string | null;
-  grammar_example: string | null;
+  passage: string[] | null;
+  grammar_rule: string[] | null;
+  grammar_example: string[] | null;
   audio_text: string | null;
-  transcript: string | null;
+  transcript: string[] | null;
   explain_question: string | null,
   correctAnswer: string | null;
 } 
 
 export interface UserSelectLessonContext {
   QuestionID: string;
-  Question: string | null;
+  Question: string[] | null;
   question_type: string;
   Answer: AnswerObject[] | null;
-  passage: string | null;
-  grammar_rule: string | null;
-  grammar_example: string | null;
+  passage: string[] | null;
+  grammar_rule: string[] | null;
+  grammar_example: string[] | null;
   audio_text: string | null;
-  transcript: string | null;
+  transcript: string[] | null;
   explain_question: string | null,
   correctAnswer: string | null;
   SelectAnswer: string | null;
@@ -180,6 +187,14 @@ export interface Result {
   score: number;
 }
 
+export interface Widget {
+  score: number;
+  progress_learners: string;
+  Level_id: number;
+  Level_name: string;
+  TOTAL_COMPLETE_LESSION: string;
+  TOTAL_SCORE_FORM_SUCCES_LESSON: string;
+}
 
 export interface NewsList {
   Category: string;

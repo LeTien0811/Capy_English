@@ -2,8 +2,8 @@ import React from "react";
 import { Pressable, Text } from "react-native";
 
 type FielButton = {
-  key: string;
-  content: string | null;
+  idAnswer: string | null;
+  content: string[] | null;
   color: string;
   textColor: string;
   align_items?: "flex-start" | "flex-end" | "center";
@@ -12,7 +12,7 @@ type FielButton = {
 };
 
 const ButtonAnswerStyle = ({
-  key,
+  idAnswer,
   content,
   color,
   textColor,
@@ -26,14 +26,20 @@ const ButtonAnswerStyle = ({
   const pareBoderColor = boderColor || "#7C63AB";
   return (
     <Pressable
-      key={key}
-      style={{ backgroundColor: pareColor, alignItems: pareAlign, borderColor: pareBoderColor }}
-      className="h-[75] px-5 border-2 rounded-xl flex justify-center"
+      key={idAnswer || null}
+      style={{
+        backgroundColor: pareColor,
+        alignItems: pareAlign,
+        borderColor: pareBoderColor,
+      }}
+      className="h-[75] border-2 rounded-xl flex flex-row flex-wrap justify-center gap-2"
       onPress={onPress}
     >
-      <Text style={{ color: pareText }} className="font-bold text-xl">
-        {content}
-      </Text>
+      {content?.map((element, index) => (
+        <Text key={index}  style={{ color: pareText }} className="font-bold text-xl">
+          {element}
+        </Text>
+      ))}
     </Pressable>
   );
 };

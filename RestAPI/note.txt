@@ -1,3 +1,4 @@
+Django run for Cục Bộ python manage.py runserver 0.0.0.0:8000
 Django Version  4.2
 
  Nếu bạn đang dùng Python với Django REST Framework:
