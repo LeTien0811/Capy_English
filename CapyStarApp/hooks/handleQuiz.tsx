@@ -15,7 +15,9 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
   // Con trỏ trỏ đến câu hỏi hiện tại
   const [isCurrentQuestion, setCurrentQuestion] = useState(0);
   // Lưu Câu hỏi người dùng đã chọn
-  const [isSaveQuestionUserSelected, setSaveQuestionUserSelected] = useState<UserSelectLessonContext[]>([]);
+  const [isSaveQuestionUserSelected, setSaveQuestionUserSelected] = useState<
+    UserSelectLessonContext[]
+  >([]);
   // Điểm
   const [isScore, setScore] = useState(0);
   // Lưu danh sách câu hỏi để truy vấn Dữ Liệu Local
@@ -27,17 +29,20 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
   const [isResult, setResult] = useState<Result | undefined>(undefined);
   // Câu hỏi
   const [isQuestion, setIsQuestion] = useState<QuestionContext | null>(null);
-  // Kiểm tra người dùng đã chọn đúng câu trả lời 
-  const [isSelectAnswer, setSelectAnswer] = useState("");
+  // Kiểm tra người dùng đã chọn đúng câu trả lời
+  const [isSelectAnswer, setSelectAnswer] = useState<boolean | null>(null);
   // Xử lý dữ liệu ở local
   const { getQuestionBankFollowId } = useDatabase();
 
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsed, setElapsed] = useState<number>(0);
 
+  const [StackStatusQuestionForLearner, SetStackStatusQuestionForLearner] =
+    useState<string[]>([]);
+
   // Khi bắt đầu làm bài test
   const startTest = () => {
-    setStartTime(Date.now()); 
+    setStartTime(Date.now());
     setElapsed(0);
   };
 
@@ -70,24 +75,51 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
   }, [isQuestionGroup]);
 
   const getQuestionBank = async () => {
-    if (isQuestionGroup != null && (isCurrentQuestion + 1) < isQuestionGroup.length) {
+    if (
+      isQuestionGroup != null &&
+      isCurrentQuestion + 1 < isQuestionGroup.length
+    ) {
       const result = await getQuestionBankFollowId(
         isQuestionGroup[isCurrentQuestion].Question_Bank_id
       );
-      console.log("**** dữ liệu question bank trong handle quiz: " , result)
+      console.log("**** dữ liệu question bank trong handle quiz: ", result);
       if (result != null) {
         const map = HandleMapQuestions(result);
         setIsQuestion(map);
-        console.log("Get Question Bank in Handle Quiz : ", map, " /////, currentQuestion: ", isCurrentQuestion);
+        console.log(
+          "Get Question Bank in Handle Quiz : ",
+          map,
+          " /////, currentQuestion: ",
+          isCurrentQuestion
+        );
       }
     } else {
-      if(isQuestionGroup == null) {
+      if (isQuestionGroup == null) {
         console.log("Handle Quiz Có Lỗi xảy ra ở Question Group");
         router.back();
       } else {
-        console.log("Handle Quiz có lỗi xảy ra: ",isQuestionGroup.length, " và ", isCurrentQuestion)
+        console.log(
+          "Handle Quiz có lỗi xảy ra: ",
+          isQuestionGroup.length,
+          " và ",
+          isCurrentQuestion
+        );
       }
     }
+  };
+
+  const HandleSetStackStatusQuestionForLearner = (status: string) => {
+    if (
+      StackStatusQuestionForLearner[
+        StackStatusQuestionForLearner.length - 1
+      ] !== status
+    ) {
+      SetStackStatusQuestionForLearner([]);
+      SetStackStatusQuestionForLearner((prev) => [...prev, status]);
+      return;
+    }
+    SetStackStatusQuestionForLearner((prev) => [...prev, status]);
+    return;
   };
 
   const handleSubmit = (selected: string) => {
@@ -99,9 +131,11 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
       const userSelected = selected === isQuestion.correctAnswer;
       if (userSelected) {
         setScore((score) => score + 10 / isQuestionGroup.length);
-        setSelectAnswer("true");
+        setSelectAnswer(true);
+        HandleSetStackStatusQuestionForLearner("D");
       } else {
-        setSelectAnswer("false");
+        setSelectAnswer(false);
+        HandleSetStackStatusQuestionForLearner("S");
       }
       const userSelect: UserSelectLessonContext = {
         QuestionID: isQuestion.QuestionID,
@@ -128,7 +162,7 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
 
   useEffect(() => {
     console.log("Hoàn Thành Bài Test", isResult);
-    finishTest()
+    finishTest();
   }, [isQuizFinished, isResult]);
 
   const handleNextStep = () => {
@@ -137,7 +171,7 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
     }
     if (isCurrentQuestion + 1 < isQuestionGroup.length) {
       setCurrentQuestion((current) => current + 1);
-      setSelectAnswer("");
+      setSelectAnswer(null);
     } else {
       setIsQuizFinished(true);
       const result = {
@@ -152,7 +186,9 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
   return {
     isQuizFinished,
     isLoading,
+    isQuestionGroup,
     isQuestion,
+    StackStatusQuestionForLearner,
     isCurrentQuestion,
     isScore,
     isResult,

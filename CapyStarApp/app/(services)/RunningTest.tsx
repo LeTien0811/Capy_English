@@ -1,6 +1,6 @@
 import ButtonStyle from "@/components/ButtonStyle";
-import { ShowQuestion } from "@/components/Lesson/ShowQuestion";
-import ShowResult from "@/components/Lesson/ShowResult";
+import { ShowQuestion } from "@/components/Lesson/RunningTest/ShowQuestion";
+import ShowResult from "@/components/Lesson/RunningTest/ShowResult";
 import useHandleQuiz from "@/hooks/handleQuiz";
 import { Question_Group } from "@/libs/type";
 import { useDatabase } from "@/utils/handleLocalStoredContext";
@@ -12,6 +12,8 @@ import SubmitModal from "./SubmitModal";
 import * as Speech from "expo-speech";
 import { useAuthContext } from "@/utils/authContext";
 import { useFetchAPI } from "@/hooks/handleFetchAPI";
+import { useTranslateTextToAPI } from "@/utils/PressToTranslateContext";
+import StatusBarView from "@/components/Lesson/StatusBar";
 // , Reading, Grammar, Listening
 
 interface submitRespone {
@@ -34,12 +36,13 @@ export default function RunningTest() {
   let useHook = useHandleQuiz(isQuestionGroup);
   const [responses, isLoadingFetch, fetchAPI] =
     useFetchAPI<submitRespone>("SaveSessionForUser");
+  const [isSpeaking, setSpeaking] = useState(false);
 
   const {
     isQuizFinished,
     isLoading,
     isQuestion,
-    isScore,
+    StackStatusQuestionForLearner,
     isResult,
     isSelectAnswer,
     isSaveQuestionUserSelected,
@@ -47,6 +50,9 @@ export default function RunningTest() {
     handleSubmit,
     handleNextStep,
   } = useHook;
+
+  const { isHandingTranslate, resultTranslate, isHandleTranslate } =
+    useTranslateTextToAPI();
 
   useEffect(() => {
     (async () => {
@@ -70,6 +76,7 @@ export default function RunningTest() {
   };
 
   const speech = () => {
+    setSpeaking(true);
     const audio = isQuestion?.audio_text;
     Speech.stop();
     if (audio != null) {
@@ -80,28 +87,40 @@ export default function RunningTest() {
       });
       console.log("run speech");
     }
+    setSpeaking(false);
   };
+
   useEffect(() => {
     speech();
   }, [isQuestion]);
 
   const SubmitAndExit = async () => {
+    console.log(
+      "Handle QUiz Question user Selected : ",
+      isSaveQuestionUserSelected
+    );
     const false_answer = isSaveQuestionUserSelected.map((item, index) => {
-      return {
-        Lessons: id_Lesson,
-        Question_bank: item.QuestionID,
-        question: item.Question,
-        correct_answer: item.correctAnswer,
-        learners_answer: item.SelectAnswer,
-        answered_at: new Date().toISOString(),
-      };
+      if (item.SelectAnswer !== item.correctAnswer) {
+        if (item.Question !== null) {
+          return {
+            Lessons: id_Lesson,
+            Question_bank: item.QuestionID,
+            question: item.Question.join(" "),
+            correct_answer: item.correctAnswer,
+            learners_answer: item.SelectAnswer,
+            answered_at: new Date().toISOString(),
+          };
+        }
+      }
     });
+
     const learner_session = {
       score: isResult?.score.toFixed(2),
       time_spent: elapsed,
       completed_at: new Date().toISOString(),
       lesson: id_Lesson,
     };
+
     const email = Learner?.email;
     const password_hash = Learner?.password_hash;
     console.log("Dữ liệu gửi đi:");
@@ -149,24 +168,31 @@ export default function RunningTest() {
     return (
       <SafeAreaView
         style={{ flex: 1 }}
-        className="p-4 bg-[#2B223E] relative flex items-center justify-center"
+        className="p-4 relative flex gap-3 items-center"
       >
-        {isQuestion.question_type === "listening" && (
+        <StatusBarView/>
+
+        {/* {isQuestion.question_type === "listening" && (
           <Pressable
             className="absolute w-15 h-15 top-20 right-3 border-2 bg-white rounded-xl p-2"
             onPress={() => speech()}
           >
             <Text className="font-semibold">Repeat</Text>
           </Pressable>
-        )}
+        )} */}
+
         <ShowQuestion
           Lesson={isQuestion}
+          isSpeaking={isSpeaking}
           openSubmit={openSubmitModal}
+
         />
 
         <SubmitModal
           visible={isVisible}
           isSelectAnswer={isSelectAnswer}
+          StackStatusQuestionForLearner={StackStatusQuestionForLearner}
+          isQuestionGroup={isQuestionGroup}
           isSucces={false}
           isSaveQuestionUserSelected={isSaveQuestionUserSelected}
           NextStep={() => handleNextStep()}

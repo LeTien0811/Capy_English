@@ -136,10 +136,10 @@ export interface AuthContextType {
     Register: (id_learners: number, email: string | null, password_hash: string | null, access_token: string | null, refresh_token: string | null , full_name: string, created_at: string | null) => Promise<boolean>
 };
 
-export interface PressToTranslateContext {
+export interface PressToTranslateContextType {
   isHandingTranslate: boolean;
   resultTranslate: string | null;
-  HandleTranslate: (data: string) => Promise<string>;
+  isHandleTranslate: (data: string) => Promise<void>;
 }
 
 export interface beforeQuestion {

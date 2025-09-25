@@ -1,9 +1,7 @@
-import axios, {Method} from "axios";
-import AxiosError from "axios";
-import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {useState} from "react";
 const api = axios.create({
-  baseURL: "http://192.168.1.172:8000/api/",
+  baseURL: "http://192.168.1.7:8000/api/",
   timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -11,9 +9,9 @@ const api = axios.create({
 });
 
 interface  FetchOptions {
-  query: string | null,
   method?: "GET" | "POST" | "PUT" | "DELETE";
   payload?: any;          // dữ liệu body (nếu có)
+  params?: Record<string, any>;
 };
 
 export const useFetchAPI = <T,>(path: string): [T | null, boolean, (options?: FetchOptions) => Promise<T | null>] => {
@@ -23,17 +21,13 @@ export const useFetchAPI = <T,>(path: string): [T | null, boolean, (options?: Fe
   const fetchAPI = async (options?: FetchOptions): Promise<T | null> => {
     setIsLoadingFetch(true);
       try {
-        const url = `${path}/${options?.query}`;
-        let response;
-        if (options?.method === "POST") {
-          response = await api.post(url, options.payload);
-        } else if (options?.method === "PUT") {
-          response = await api.put(url, options.payload);
-        } else if (options?.method === "DELETE") {
-          response = await api.delete(url);
-        } else {
-          response = await api.get(url);
-        }
+        const pathURL = `${path}/`;
+        const response = await api.request<T>({
+          url: pathURL,
+          method: options?.method,
+          data: options?.payload,
+          params: options?.params,
+        });
         const result = response.data as T;
         setData(result);
         return result;

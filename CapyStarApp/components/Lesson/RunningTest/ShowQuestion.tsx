@@ -1,26 +1,26 @@
 import { View, Text, Pressable, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import ButtonStyle from "../ButtonStyle";
+import ButtonStyle from "../../ButtonStyle";
 import { AnswerObject, QuestionContext } from "@/libs/type";
-import ButtonAnswerStyle from "../ButtonAnswerStyle";
+import ButtonAnswerStyle from "../../ButtonAnswerStyle";
 import handleMapText from "@/hooks/handleMapText";
-
+import { useTranslateTextToAPI } from "@/utils/PressToTranslateContext";
+import {ListLessonText} from "@/components/Text/ListLessonText"
+import ViewQuestion from "./ViewQuestion";
+import FielLearnerQuestion from "./FielLearnerQuestion";
 type QuestionProp = {
   Lesson: QuestionContext;
+  isSpeaking: boolean;
   openSubmit: (selected: string) => void;
 };
 
-export const ShowQuestion = ({
-  Lesson,
-  openSubmit,
-}: QuestionProp) => {
+export const ShowQuestion = ({ Lesson, isSpeaking, openSubmit }: QuestionProp) => {
   const [isPress, setPress] = useState("");
-  const [backgroundButtonSubmit, setBackgroundButtonSubmit] =
-    useState("#6F6C87");
+  const [backgroundButtonSubmit, setBackgroundButtonSubmit] = useState("#6F6C87");
   const [borderColorSelected, setborderColorSelected] = useState("");
-
   const clickAnswer = (AnswerId: string) => {
     setPress(AnswerId);
+    console.log("Click")
   };
 
   const clickSubmit = () => {
@@ -52,37 +52,40 @@ export const ShowQuestion = ({
   } else {
     return (
       <View
-        className="w-full flex gap-2 items-center justify-center"
+        className="w-full flex gap-4 items-center"
         key={Lesson.QuestionID}
       >
-        <View className="w-full flex flex-row items-center justify-center gap-2 flex-wrap">
-          <Text className="text-2xl text-[#688EFF] font-bold text-center text-wrap">Passage:</Text>
+        
           {Lesson.question_type === "reading" && (
-            Lesson.passage?.map((element, index) => (
-            <Text key={index} className="text-2xl text-[#688EFF] font-bold text-center text-wrap" onLongPress={() => console.log(element)}>
-              {element}
-            </Text>
-          ))
-            
+            <View className="w-full flex flex-row gap-2 flex-wrap">
+              <Text className="text-2xl text-[#688EFF] font-bold text-center">
+                Đoạn Văn:
+              </Text>
+              <ListLessonText
+                ArrayString={Lesson.passage}
+                onPress={() => null}
+              />
+            </View>
           )}
-
+        
+        <View className="w-full">
+              <ViewQuestion
+              question={Lesson.Question}
+              />
         </View>
-        <View className="w-full flex flex-row items-center justify-center gap-2">
-          {Lesson.Question?.map((element, index) => (
-            <Text key={index} className="text-white text-2xl font-bold" onLongPress={() => console.log(element)}>
-              {element}
-            </Text>
-          ))}
+        <View className="w-full">
+          <FielLearnerQuestion
+            UserQuestion={Lesson.Answer.find((answer) => answer.AnswerId === isPress)?.Answer ?? null}
+          />
         </View>
-        <View className="w-full p-5 flex gap-4">
+        <View className="w-full flex justify-center flex-row flex-wrap gap-3">
           {Lesson.Answer.map((answer: AnswerObject) => {
-            console.log("This answer in map: ", answer);
             return (
               <ButtonAnswerStyle
                 key={answer.AnswerId}
                 idAnswer={answer.AnswerId}
                 content={answer.Answer}
-                color="#35284E"
+                color=""
                 align_items="flex-start"
                 textColor="white"
                 boderColor={

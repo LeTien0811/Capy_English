@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
+import { ListLessonText } from "./Text/ListLessonText";
 
 type FielButton = {
   idAnswer: string | null;
@@ -23,23 +24,23 @@ const ButtonAnswerStyle = ({
   const pareColor = color || "#F15D41";
   const pareText = textColor === "" ? "#F1F1F1" : textColor;
   const pareAlign = align_items || "center";
-  const pareBoderColor = boderColor || "#7C63AB";
+  const pareBoderColor = boderColor || "black";
   return (
     <Pressable
       key={idAnswer || null}
       style={{
+        display: "flex",
         backgroundColor: pareColor,
         alignItems: pareAlign,
         borderColor: pareBoderColor,
+        justifyContent: "center",
       }}
-      className="h-[75] border-2 rounded-xl flex flex-row flex-wrap justify-center gap-2"
+      className="w-full h-[75] p-3 flex flex-row gap-2 border-2 rounded-xl"
       onPress={onPress}
     >
-      {content?.map((element, index) => (
-        <Text key={index}  style={{ color: pareText }} className="font-bold text-xl">
-          {element}
-        </Text>
-      ))}
+      <ListLessonText ArrayString={content}
+      onPress={onPress}
+      />
     </Pressable>
   );
 };

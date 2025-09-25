@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const saved = await checkLoginStatus();
         if (saved) {
           setLearner(saved);
-          console.log("🔑 Khởi tạo từ DB:", saved);
+          console.log("Khởi tạo từ DB:", saved);
         } else {
           setLearner(null);
         }

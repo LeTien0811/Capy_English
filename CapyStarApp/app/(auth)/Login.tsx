@@ -38,7 +38,7 @@ export default function Login() {
   const handleSubmit = async () => {
     const response = await fetchAPI({
       method: "POST",
-      payload: { email: isEmail, password_hash: isPassword },
+      payload: { email: isEmail, password_hash: isPassword},
     });
     if (!response) {
       return Alert.alert("Không có dữ liệu từ API");

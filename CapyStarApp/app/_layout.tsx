@@ -7,6 +7,7 @@ import "../global.css";
 import { AuthProvider } from "@/utils/authContext";
 import { DatabaseProvider } from "@/utils/handleLocalStoredContext";
 import { View } from "react-native";
+import { PressToTranslateProvider } from "@/utils/PressToTranslateContext";
 
 export const unstable_settings = {
   initialRouteName: "(protected)",
@@ -16,12 +17,13 @@ export default function RootLayout() {
   return (
     <DatabaseProvider>
       <AuthProvider>
+        <PressToTranslateProvider>
           <Stack>
             <Stack.Screen
               name="(protected)"
               options={{
                 headerShown: false,
-                presentation: "card", 
+                presentation: "card",
               }}
             />
             <Stack.Screen
@@ -29,14 +31,14 @@ export default function RootLayout() {
               options={{
                 title: "Running Test",
                 headerShown: false,
-                presentation: "card", 
+                presentation: "card",
               }}
             />
             <Stack.Screen
               name="(auth)"
               options={{
                 headerShown: false,
-                presentation: "card", 
+                presentation: "card",
               }}
             />
             <Stack.Screen
@@ -49,6 +51,7 @@ export default function RootLayout() {
             />
           </Stack>
           <StatusBar style="auto" hidden={false} />
+        </PressToTranslateProvider>
       </AuthProvider>
     </DatabaseProvider>
   );

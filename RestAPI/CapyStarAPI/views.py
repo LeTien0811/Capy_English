@@ -18,7 +18,7 @@ def ApiOverview(request):
     return Response(api_urls)
 
 # Cho người dùng đăng nhập và gửi toàn bộ dữ liệu khóa học cho người học
-@api_view(['GET'])
+@api_view(['POST'])
 def SignIn_Learner(request):
     try:
         email = request.data.get("email")
