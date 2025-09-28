@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS Question_Bank (
     grammar_example TEXT NULL,
     audio_text TEXT NULL,
     transcript TEXT NULL,
+    matching_pair TEXT NULL,
     explain_question TEXT NULL,
     level_id varchar(20) NOT NULL,
     topic_id integer NOT NULL,
@@ -545,7 +546,7 @@ export const DatabaseProvider = ({ children }: { children: ReactNode }) => {
         for (const item of dataArray) {
           if (item && item.id_question) {
             await db.runAsync(
-              `INSERT OR REPLACE INTO Question_Bank (id_question, question, question_type, option_a, option_b, option_c, option_d, correct_answer, passage, grammar_rule, grammar_example, audio_text, transcript, explain_question, level_id, topic_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+              `INSERT OR REPLACE INTO Question_Bank (id_question, question, question_type, option_a, option_b, option_c, option_d, correct_answer, passage, grammar_rule, grammar_example, audio_text, transcript, matching_pair, explain_question, level_id, topic_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
               [
                 item.id_question,
                 item.question,
@@ -560,6 +561,7 @@ export const DatabaseProvider = ({ children }: { children: ReactNode }) => {
                 item.grammar_example,
                 item.audio_text,
                 item.transcript,
+                item.matching_pair,
                 item.explain_question,
                 item.level,
                 item.topic_id,

@@ -12,9 +12,10 @@ type QuestionProp = {
   Lesson: QuestionContext;
   isSpeaking: boolean;
   openSubmit: (selected: string) => void;
+  RunSpeak: () => void;
 };
 
-export const ShowQuestion = ({ Lesson, isSpeaking, openSubmit }: QuestionProp) => {
+export const ShowQuestion = ({ Lesson, isSpeaking, openSubmit, RunSpeak }: QuestionProp) => {
   const [isPress, setPress] = useState("");
   const [backgroundButtonSubmit, setBackgroundButtonSubmit] = useState("#6F6C87");
   const [borderColorSelected, setborderColorSelected] = useState("");
@@ -57,8 +58,8 @@ export const ShowQuestion = ({ Lesson, isSpeaking, openSubmit }: QuestionProp) =
       >
         
           {Lesson.question_type === "reading" && (
-            <View className="w-full flex flex-row gap-2 flex-wrap">
-              <Text className="text-2xl text-[#688EFF] font-bold text-center">
+            <View className="w-full flex flex-row gap-1 flex-wrap">
+              <Text className="text-xl text-[#688EFF] font-bold text-center">
                 Đoạn Văn:
               </Text>
               <ListLessonText
@@ -70,7 +71,10 @@ export const ShowQuestion = ({ Lesson, isSpeaking, openSubmit }: QuestionProp) =
         
         <View className="w-full">
               <ViewQuestion
+              questionType={Lesson.question_type}
               question={Lesson.Question}
+              isSpeaking={isSpeaking}
+              RunSpeak={RunSpeak}
               />
         </View>
         <View className="w-full">

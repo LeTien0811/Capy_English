@@ -82,12 +82,12 @@ const SubmitModal = ({
         score
       );
       if (isSelectAnswer) {
-        // Nếu đúng, lấy từ TrueImage
+        
         return score > 1
           ? TrueImage[imageKey] || TrueImage[Object.keys(TrueImage).length]
           : require("@/assets/images/ImageMemeQuestion/DocSachChill.jpg");
       } else {
-        // Nếu sai, lấy từ FalseImage
+        
         return score > 1
           ? FalseImage[imageKey] || FalseImage[Object.keys(FalseImage).length]
           : require("@/assets/images/ImageMemeQuestion/DocSachChill.jpg");
@@ -104,7 +104,7 @@ const SubmitModal = ({
     >
       <View style={styles.overlay}>
         <View
-          className="bg-white w-full border-2 border-[#7C63AB] rounded-xl flex items-center gap-2 p-2"
+          className="bg-white w-full border-2 border-[#7C63AB] rounded-xl flex items-center justify-between gap-2 p-2 py-3"
           style={{ height: screenHeight * 0.3 }}
         >
           <View className="w-full flex flex-row">

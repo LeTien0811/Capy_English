@@ -82,16 +82,17 @@ class LearnerService:
         errors = []
         save_false_answer = []
 
-        for item in false_answer:
-            serializer = False_AnswerSerializer(data = item)
-            if serializer.is_valid():
-                serializer.save(Learners = self.learner)
-                save_false_answer.append(serializer.data)
-            else:
-                errors.append(
-                    {"type": "false_answer",
-                    "data": item,
-                    "errors": serializer.errors})
+        if false_answer: 
+            for item in false_answer:
+                serializer = False_AnswerSerializer(data = item)
+                if serializer.is_valid():
+                    serializer.save(Learners = self.learner)
+                    save_false_answer.append(serializer.data)
+                else:
+                    errors.append(
+                        {"type": "false_answer",
+                        "data": item,
+                        "errors": serializer.errors})
                 
         save_Session_Learner = {}
         session_serializer = LearningSessionSerializer(data = learner_session)

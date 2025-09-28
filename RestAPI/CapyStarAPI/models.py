@@ -88,6 +88,7 @@ class QuestionBank(models.Model):
         ('reading', 'Reading'),
         ('grammar', 'Grammar'),
         ('listening', 'Listening'),
+        ('matching', 'Matching'),
     ]
 
     id_question = models.AutoField(primary_key=True)
@@ -115,6 +116,9 @@ class QuestionBank(models.Model):
     audio_text = models.CharField(max_length=255, blank=True, null=True)  
     transcript = models.TextField(blank=True, null=True)                 
     explain_question = models.TextField(blank=True, null=True)  
+    # Đây là nối từ
+    matching_pair = models.JSONField(blank=True, null=True)
+    # Lưu dạng [{"left": "apple", "right": "quả táo"}, {"left": "dog", "right": "con chó"}]
     def __str__(self):
         return f"{self.question_type}: {self.question[:50]}"
 

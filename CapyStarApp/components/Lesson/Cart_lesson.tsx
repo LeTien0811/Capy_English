@@ -74,8 +74,9 @@ const Cart_lesson: React.FC<CartLessonProps> = ({ LessonGroup, Lesson }) => {
       router.push({pathname: "/(services)/RunningTest", 
         params: {id_Lesson: idLesson.toString()}});
   }
+  
   return (
-    <View className="flex-1 h-[85vh] rounded-xl mb-3 flex flex-col justify-between">
+    <View className="flex-1 h-[86vh] rounded-xl mb-3 flex flex-col justify-between">
       <View
         style={style.boxWithShadow}
         className="w-full flex flex-row justify-between bg-[#A1D689] border-[1px] p-5 border-gray-600"

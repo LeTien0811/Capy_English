@@ -72,7 +72,7 @@ export default function RunningTest() {
   const openSubmitModal = (answerID: string) => {
     console.log("hello");
     setVisible(true);
-    handleSubmit(answerID);
+    handleSubmit(answerID, null);
   };
 
   const speech = () => {
@@ -99,20 +99,23 @@ export default function RunningTest() {
       "Handle QUiz Question user Selected : ",
       isSaveQuestionUserSelected
     );
-    const false_answer = isSaveQuestionUserSelected.map((item, index) => {
-      if (item.SelectAnswer !== item.correctAnswer) {
-        if (item.Question !== null) {
-          return {
-            Lessons: id_Lesson,
-            Question_bank: item.QuestionID,
-            question: item.Question.join(" "),
-            correct_answer: item.correctAnswer,
-            learners_answer: item.SelectAnswer,
-            answered_at: new Date().toISOString(),
-          };
-        }
-      }
-    });
+    
+    const false_answer = isSaveQuestionUserSelected
+      .filter(
+        (filter) =>
+          filter.correctAnswer === filter.SelectAnswer &&
+          filter.Question !== null
+      )
+      .map((item, index) => {
+        return {
+          Lessons: id_Lesson,
+          Question_bank: item.QuestionID,
+          question: item.Question !== null ? item.Question.join(" ") : null,
+          correct_answer: item.correctAnswer,
+          learners_answer: item.SelectAnswer,
+          answered_at: new Date().toISOString(),
+        };
+      });
 
     const learner_session = {
       score: isResult?.score.toFixed(2),
@@ -170,7 +173,7 @@ export default function RunningTest() {
         style={{ flex: 1 }}
         className="p-4 relative flex gap-3 items-center"
       >
-        <StatusBarView/>
+        <StatusBarView />
 
         {/* {isQuestion.question_type === "listening" && (
           <Pressable
@@ -185,7 +188,7 @@ export default function RunningTest() {
           Lesson={isQuestion}
           isSpeaking={isSpeaking}
           openSubmit={openSubmitModal}
-
+          RunSpeak={speech}
         />
 
         <SubmitModal

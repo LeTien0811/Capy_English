@@ -96,16 +96,11 @@ const newsData: NewsList[] = [
 
 export default function Index() {
   const tabBarHeight = useBottomTabBarHeight();
-  const router = useRouter();
-
-  const { resetDatabaseForTesting } = useDatabase();
   const { Learner } = useAuthContext();
-  const hanldeClickGo = () => {
-    router.push("/(protected)/(lesson)");
-  };
+
   return (
-    <SafeAreaView className="flex-1 p-2 w-full h-full bg-white">
-      <View className="w-full flex flex-row mb-2 items-center justify-between">
+    <SafeAreaView className="flex-1 w-full h-full bg-white">
+      <View className="w-full flex flex-row mb-2 items-center justify-between p-2">
         <Text className="font-bold text-xl">Hi {Learner?.full_name}!</Text>
         <TouchableOpacity className="w-14 h-14 border-2 border-gray-300 rounded-xl items-center flex justify-center">
           <Image
@@ -117,12 +112,12 @@ export default function Index() {
         </TouchableOpacity>
       </View>
 
-      <View className="w-full mb-8">
+      <View className="w-full mb-5 p-2">
         <OverviewWidgetCard />
       </View>
 
       <View className="w-full flex flex-col gap-6">
-        <View className="w-full flex flex-col mb-2">
+        <View className="w-full flex flex-col p-2">
           <Text className="text-3xl font-bold ">News</Text>
           <TitleTextStyle
             content="this is a news for learning english people!"
@@ -137,7 +132,7 @@ export default function Index() {
           >
             {newsData.map((newslist) =>
               newslist.NewsItems.map((item, index) => (
-                  <View key={index} className="px-1 py-3">
+                  <View key={index} className="ml-3 mr-2 p-1">
                     <NewsCards key={index} NewsItem={item} />
                   </View>
               ))

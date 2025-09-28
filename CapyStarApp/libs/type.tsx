@@ -90,6 +90,7 @@ export interface Question_Bank {
     grammar_example: string | null,
     audio_text: string | null,
     transcript: string | null,
+    matching_pair: string | null,
     explain_question: string | null,
     topic_id : number,
     level_id : string
@@ -152,6 +153,10 @@ export interface beforeQuestion {
   correct_answer: string;
   topic: number;
 }
+export interface matching_pairContext {
+  right: string | null;
+  left: string | null;
+}
 
 export interface QuestionContext {
   QuestionID: string;
@@ -163,6 +168,7 @@ export interface QuestionContext {
   grammar_example: string[] | null;
   audio_text: string | null;
   transcript: string[] | null;
+  matching_pair: matching_pairContext[] | null;
   explain_question: string | null,
   correctAnswer: string | null;
 } 
@@ -177,7 +183,7 @@ export interface UserSelectLessonContext {
   grammar_example: string[] | null;
   audio_text: string | null;
   transcript: string[] | null;
-  explain_question: string | null,
+  explain_question: string | null;
   correctAnswer: string | null;
   SelectAnswer: string | null;
 }

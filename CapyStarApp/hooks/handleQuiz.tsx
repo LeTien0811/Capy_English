@@ -5,10 +5,12 @@ import {
   QuestionContext,
   Result,
   UserSelectLessonContext,
+  matching_pairContext,
 } from "@/libs/type";
 import { useRouter } from "expo-router";
 import { useDatabase } from "@/utils/handleLocalStoredContext";
 import HandleMapQuestions from "./handleMapQuestions";
+import { left } from "@cloudinary/url-gen/qualifiers/textAlignment";
 
 const useHandleQuiz = (QuestionGroup: any[]) => {
   const router = useRouter();
@@ -111,7 +113,7 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
   const HandleSetStackStatusQuestionForLearner = (status: string) => {
     if (
       StackStatusQuestionForLearner[
-        StackStatusQuestionForLearner.length - 1
+      StackStatusQuestionForLearner.length - 1
       ] !== status
     ) {
       SetStackStatusQuestionForLearner([]);
@@ -122,20 +124,28 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
     return;
   };
 
-  const handleSubmit = (selected: string) => {
+  const handleSubmit = (selected: string, selectedMatching: matching_pairContext[] | null) => {
     if (!isQuestionGroup || isQuestionGroup.length === 0) {
       console.log("Không có bài học");
       return;
     }
-    if (isQuestion != null) {
-      const userSelected = selected === isQuestion.correctAnswer;
-      if (userSelected) {
-        setScore((score) => score + 10 / isQuestionGroup.length);
-        setSelectAnswer(true);
-        HandleSetStackStatusQuestionForLearner("D");
-      } else {
-        setSelectAnswer(false);
-        HandleSetStackStatusQuestionForLearner("S");
+    if (isQuestion !== null) {
+      if (isQuestion.question_type !== "matching") {
+        const userSelected = selected === isQuestion.correctAnswer;
+        if (userSelected) {
+          setScore((score) => score + 10 / isQuestionGroup.length);
+          setSelectAnswer(true);
+          HandleSetStackStatusQuestionForLearner("D");
+        } else {
+          setSelectAnswer(false);
+          HandleSetStackStatusQuestionForLearner("S");
+        }
+      } else if (selectedMatching !== null && isQuestion.question_type === "matching" && isQuestion.matching_pair?.length !== null) {
+        const lengthMatching = isQuestion.matching_pair?.length || null;
+        const sumLengthQuestion = (10 / isQuestionGroup.length) / (lengthMatching !== null ? lengthMatching : 0);
+          const count = isQuestion.matching_pair?.filter(questionitem => selectedMatching.some(selected => questionitem.left === selected.left && questionitem.right === selected.right)).length || null;
+          
+          setScore((score) => score + ((count !== null ? count : 0) * sumLengthQuestion));
       }
       const userSelect: UserSelectLessonContext = {
         QuestionID: isQuestion.QuestionID,
@@ -152,6 +162,7 @@ const useHandleQuiz = (QuestionGroup: any[]) => {
         SelectAnswer: selected,
       };
       setSaveQuestionUserSelected((prev) => [...prev, userSelect]);
+      return;
     }
   };
 

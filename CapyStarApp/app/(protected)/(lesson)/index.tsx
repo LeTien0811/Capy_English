@@ -49,7 +49,7 @@ export default function HomeScreen() {
   } else {
     return (
       <SafeAreaView className="flex-1 bg-white">
-        <ScrollView className="flex-1" showsVerticalScrollIndicator={true}>
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={true} pagingEnabled>
           {Array.isArray(isLessonGroup) &&
             Array.isArray(isLesson) &&
             isLessonGroup.map((itemGroup) => {

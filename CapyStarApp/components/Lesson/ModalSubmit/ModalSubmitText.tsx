@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useState } from "react";
 import { UserSelectLessonContext } from "@/libs/type";
 import { ListLessonText } from "../../Text/ListLessonText";
@@ -7,21 +7,15 @@ interface SubmitTextProps {
   DataUserQuestion: UserSelectLessonContext | null;
 }
 const ModalSubmitText = ({ DataUserQuestion }: SubmitTextProps) => {
-  const [showGramma, setGramma] = useState<boolean| null>(null)
+  const [isShowGramma, setGramma] = useState<boolean| null>(null)
   const showGrammar = () => {
-    const KetQuaView = document.querySelector("#KetQuaView");
-    const GrammarView = document.querySelector('#GrammarView');
-    KetQuaView?.classList.remove("flex");
-    KetQuaView?.classList.add("hidden");
-    GrammarView?.classList.remove("hidden");
-    GrammarView?.classList.add("flex");
-    
+    setGramma(true);
   }
   return (
     <View
       className="flex flex-col border-2 rounded-xl flex-1 flex-wrap p-2"
     >
-      <View id="KetQuaView" className="w-full flex flex-wrap relative">
+      {!isShowGramma && ( <View id="KetQuaView" className="w-full flex flex-wrap relative">
         <Text className="text-xl font-bold">Kết quả:</Text>
         {DataUserQuestion?.correctAnswer === DataUserQuestion?.SelectAnswer ? (
           <View className="w-full flex flex-row flex-wrap">
@@ -38,24 +32,25 @@ const ModalSubmitText = ({ DataUserQuestion }: SubmitTextProps) => {
           </Text>
           </View>
         )}
-        {DataUserQuestion?.grammar_rule === null && (
-          <View className="absolute top-1 right-1">
+        {DataUserQuestion?.grammar_rule != null && (
+          <Pressable onPress={showGrammar} className="absolute top-1 right-1">
             <Ionicons name="bulb-outline" size={24} color="red" />
-          </View>
+          </Pressable>
         )}
-      </View>
+      </View>) }
 
-      {DataUserQuestion?.grammar_rule != null && (
-        <View id="GrammarView" className="w-full flex flex-col flex-wrap">
-          <View className="w-full">
-            <Text className="text-white text-xl">Quy Tắc</Text>
+
+      {DataUserQuestion?.grammar_rule != null && isShowGramma && (
+        <View id="GrammarView" className="w-full flex flex-col">
+          <View className="w-full flex flex-row gap-1 flex-wrap">
+            <Text className="text-xl font-bold">Quy Tắc: </Text>
             <ListLessonText
               ArrayString={DataUserQuestion?.grammar_rule}
               onPress={() => null}
             />
           </View>
-          <View className="w-full">
-            <Text className="text-white text-xl">Ví Dụ</Text>
+          <View className="w-full flex flex-row gap-1 flex-wrap">
+            <Text className= "text-xl font-bold">Ví Dụ</Text>
             <ListLessonText
               ArrayString={DataUserQuestion?.grammar_example}
               onPress={() => null}
